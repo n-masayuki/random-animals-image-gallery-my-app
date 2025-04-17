@@ -1,0 +1,9 @@
+**/.git
+**/.svn
+**/.hg
+**/.json
+**/.map
+**/node_modules
+build
+dist
+public
