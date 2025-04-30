@@ -34,6 +34,9 @@ function App() {
   const [blurhashImages, setBlurhashImages] = useState<Record<string, string>>(
     {}
   );
+  // トランジション状態を追加
+  const [isLoadingFadeOut, setIsLoadingFadeOut] = useState<boolean>(false);
+  const [isGalleryVisible, setIsGalleryVisible] = useState<boolean>(false);
 
   // BlurHashからデータURLを生成する関数
   const generateBlurDataUrl = (
@@ -67,6 +70,8 @@ function App() {
     const fetchRandomAnimalImages = async () => {
       try {
         setLoading(true);
+        setIsLoadingFadeOut(false);
+        setIsGalleryVisible(false);
         setError(null);
 
         // Unsplash APIを使用してランダムな動物の画像を20枚取得
@@ -80,10 +85,21 @@ function App() {
 
         const data = await response.json();
         setImages(data);
+
+        // 画像の読み込みが完了したら、トランジションを開始
+        setIsLoadingFadeOut(true);
+
+        // フェードアウト完了後にギャラリーを表示、ローディングを非表示に
+        setTimeout(() => {
+          setIsGalleryVisible(true);
+          // ここで loading を false にするのを遅延させる
+          setTimeout(() => {
+            setLoading(false);
+          }, 100);
+        }, 500); // フェードアウト時間に合わせる
       } catch (err) {
         console.error('画像の取得に失敗しました:', err);
         setError('画像の取得に失敗しました。もう一度お試しください。');
-      } finally {
         setLoading(false);
       }
     };
@@ -109,10 +125,18 @@ function App() {
 
   return (
     <div className="container">
-      {loading && <p className="loading">画像を読み込み中...</p>}
+      {/* loadingがtrueの間だけ表示 */}
+      {loading && (
+        <p className={`loading ${isLoadingFadeOut ? 'loading--fade-out' : ''}`}>
+          画像を読み込み中...
+        </p>
+      )}
       {error && <div className="error">{/* <p>{error}</p> */}</div>}
-      {!loading && !error && (
-        <div className="image-gallery">
+      {/* ギャラリーの表示条件を明確に */}
+      {!error && (
+        <div
+          className={`image-gallery ${isGalleryVisible ? 'image-gallery--fade-in' : 'image-gallery--hidden'}`}
+        >
           {/* 1カラム目 - 上へ移動 */}
           <div className="column column--up">
             {images

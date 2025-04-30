@@ -6,6 +6,7 @@ interface ImageCardProps {
     urls: {
       regular: string;
       small: string;
+      thumb: string;
     };
     alt_description?: string;
     width: number;
@@ -42,7 +43,7 @@ export const ImageCard: FC<ImageCardProps> = ({
         }}
       >
         <img
-          src={image.urls.regular}
+          src={image.urls.small}
           alt={image.alt_description || 'ランダムな動物の画像'}
           loading="lazy"
           decoding="async"
