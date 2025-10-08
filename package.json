@@ -2,6 +2,11 @@
   "name": "random-animals-image-gallery-my-app",
   "private": true,
   "version": "0.0.0",
+  "packageManager": "npm@11.6.1",
+  "volta": {
+    "node": "22.14.0",
+    "npm": "11.6.1"
+  },
   "type": "module",
   "scripts": {
     "dev": "vite",
