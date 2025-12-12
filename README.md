@@ -17,11 +17,11 @@ Unsplash APIを使用してランダムな動物の画像を表示するギャ�
 npm install
 ```
 
-2. 環境変数の設定
+1. 環境変数の設定
 
 プロジェクトルートに `.env` ファイルを作成し、Unsplash API キーを設定してください。
 
-```
+```env
 VITE_UNSPLASH_API_KEY=your_api_key_here
 ```
 
