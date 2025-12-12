@@ -19,18 +19,34 @@
 @keyframes moveUp {
   0% {
     transform: translateY(0);
+    opacity: 0;
+  }
+  2% {
+    opacity: 1;
+  }
+  98% {
+    opacity: 1;
   }
   100% {
     transform: translateY(-50%);
+    opacity: 0;
   }
 }
 
 @keyframes moveDown {
   0% {
     transform: translateY(-50%);
+    opacity: 0;
+  }
+  2% {
+    opacity: 1;
+  }
+  98% {
+    opacity: 1;
   }
   100% {
-    transform: translateY(0);
+    transform: translateY(0%);
+    opacity: 0;
   }
 }
 
@@ -65,7 +81,7 @@
     border-radius: 100%;
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-top-color: #fff;
-    animation: spin 1.2s infinite linear;
+    animation: spin 1.2s linear infinite;
   }
 }
 
@@ -113,16 +129,23 @@
 
 // 各カラムのスタイル
 .column {
+  --move-speed: 120s; // アニメーションの速度を変数で定義
   flex: 1;
   padding: 0 2.5px;
   height: auto;
+  min-height: 200vh; // 画面の高さの2倍を保証して背景が見えないようにする
   display: flex;
   flex-direction: column;
+  will-change: transform; // GPUアクセラレーションを有効化してスムーズなアニメーションを実現
+  transform-style: preserve-3d; // 3D変換を保持
+  backface-visibility: hidden; // ちらつき防止
   &--up {
-    animation: moveUp 120s linear infinite;
+    transform: translateY(0); // 初期位置を0にして、画像セット1が最初に表示されるようにする
+    animation: moveUp var(--move-speed) linear infinite;
   }
   &--down {
-    animation: moveDown 120s linear infinite;
+    transform: translateY(-50%); // 初期位置を-50%にして、画像セット2が最初に表示されるようにする
+    animation: moveDown var(--move-speed) linear infinite;
   }
 }
 

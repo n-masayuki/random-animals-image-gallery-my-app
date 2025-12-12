@@ -1,54 +1,77 @@
-# React + TypeScript + Vite
+# Random Animals Image Gallery
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Unsplash APIを使用してランダムな動物の画像を表示するギャラリーアプリです。
 
-Currently, two official plugins are available:
+## 機能
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Unsplash APIからかわいい動物の画像を20枚取得
+- BlurHash によるプレースホルダー表示
+- レスポンシブデザイン
+- 画像の再読み込み機能
 
-## Expanding the ESLint configuration
+## セットアップ
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+1. 依存パッケージのインストール
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-});
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+2. 環境変数の設定
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x';
-import reactDom from 'eslint-plugin-react-dom';
+プロジェクトルートに `.env` ファイルを作成し、Unsplash API キーを設定してください。
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-});
 ```
+VITE_UNSPLASH_API_KEY=your_api_key_here
+```
+
+Unsplash API キーは [Unsplash Developers](https://unsplash.com/developers) で取得できます。
+
+## 開発
+
+```bash
+npm run dev
+```
+
+## ビルド
+
+```bash
+npm run build
+```
+
+## ファイル構成と役割
+
+### メインファイル
+
+- **`src/App.tsx`** - アプリケーションのメインコンポーネント
+
+  - Unsplash APIからの画像取得処理
+  - BlurHashのデコードとプレースホルダー生成
+  - 3カラムレイアウトでの画像表示制御
+  - ローディング・エラー状態の管理
+  - トランジションアニメーションの制御
+
+- **`src/components/ImageCard.tsx`** - 個別の画像カードコンポーネント
+
+  - 1枚の画像とクレジット情報の表示
+  - BlurHashプレースホルダーから実画像へのスムーズな切り替え
+  - lazy loading による最適化
+
+- **`src/_App.scss`** - メインスタイルシート
+  - 3カラムレイアウトのスタイル定義
+  - 無限スクロール風のアニメーション設定
+  - レスポンシブデザインの実装
+
+### その他の重要なファイル
+
+- **`.env`** - 環境変数（API キー）の管理
+- **`vite.config.ts`** - Vite ビルドツールの設定
+- **`tsconfig.json`** - TypeScript コンパイラの設定
+
+## 技術スタック
+
+- React 19
+- TypeScript
+- Vite
+- Sass
+- fast-blurhash
